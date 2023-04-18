@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity {
         runList();
     }
 
-
     private void runList() {
         setContentView(R.layout.list);
 
