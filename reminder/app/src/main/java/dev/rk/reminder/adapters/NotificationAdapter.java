@@ -49,7 +49,6 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         TextView titleText = view.findViewById(R.id.titleText);
         TextView contentText = view.findViewById(R.id.contentText);
 
-
         timeText.setText(notification.time.toString());
         titleText.setText(notification.title);
         contentText.setText(notification.content);

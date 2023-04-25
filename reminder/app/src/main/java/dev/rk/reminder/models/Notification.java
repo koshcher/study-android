@@ -1,9 +1,10 @@
 package dev.rk.reminder.models;
 
+import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
-public class Notification {
+public class Notification implements Serializable {
     public final Date time;
     public final String title;
     public final String content;

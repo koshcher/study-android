@@ -62,17 +62,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:inputType="text|textMultiLine"
+        android:maxLines="6"
         app:layout_constraintTop_toBottomOf="@id/contentInputLabel"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-
-
-
         />
 
     <Button
