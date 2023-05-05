@@ -2,7 +2,6 @@ package dev.rk.employeesmanager.adapters;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.graphics.EmbossMaskFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +47,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     @Override
     public int getItemCount() { return employees.size(); }
 
-    public class EmployeeViewHolder extends RecyclerView.ViewHolder {
+    public class EmployeeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView ageText;
         TextView nameText;
@@ -59,6 +58,23 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
             ageText = itemView.findViewById(R.id.ageText);
             nameText = itemView.findViewById(R.id.nameText);
             imageView = itemView.findViewById(R.id.imageView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            int position = getAdapterPosition();
+            Employee employee = employees.get(position);
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Remove")
+                    .setMessage("Are you sure you want to remove: " + employee.getName() + "?")
+                    .setPositiveButton("Yes", (dialogInterface, i) -> {
+                        employees.remove(position);
+                        notifyDataSetChanged();
+                    })
+                    .setNegativeButton("No", (dialogInterface, i) -> dialogInterface.dismiss())
+                    .create().show();
         }
     }
 }

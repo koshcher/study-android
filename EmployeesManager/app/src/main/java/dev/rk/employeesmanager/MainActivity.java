@@ -28,8 +28,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // https://roman-koshchei.github.io/mirabo/assets/hikari.png
+
         employees.add(new Employee("Sakura", "https://roman-koshchei.github.io/mirabo/assets/sakura.png", 18));
-        employees.add(new Employee("Hikari", "https://roman-koshchei.github.io/mirabo/assets/hikari.png", 23));
+        employees.add(new Employee("Hikari", "", 23));
         employees.add(new Employee("Akira", "https://roman-koshchei.github.io/mirabo/assets/akira.png", 27));
 
         Button addEmployeeBtn = findViewById(R.id.addEmployeeBtn);
@@ -57,5 +59,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, AddEmployeeActivity.class);
             launcher.launch(intent);
         });
+
+
     }
 }
