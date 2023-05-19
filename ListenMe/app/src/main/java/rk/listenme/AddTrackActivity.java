@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import rk.listenme.data.Database;
 import rk.listenme.models.Track;
 
 public class AddTrackActivity extends AppCompatActivity {
@@ -47,7 +48,7 @@ public class AddTrackActivity extends AppCompatActivity {
            Track track = new Track(title, trackUrl, image);
 
             Intent mainIntent = new Intent(this, MainActivity.class);
-            mainIntent.putExtra(Track.id, track);
+            mainIntent.putExtra("track", track);
             setResult(RESULT_OK, mainIntent);
             finish();
         });

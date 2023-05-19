@@ -18,8 +18,8 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import rk.listenme.data.TrackStore;
 import rk.listenme.models.Track;
-import rk.listenme.models.TrackStore;
 
 public class ListenActivity extends AppCompatActivity {
 
@@ -35,6 +35,9 @@ public class ListenActivity extends AppCompatActivity {
     MediaPlayer mediaPlayer;
     Timer timer;
 
+    int trackIndex;
+    TrackStore trackStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,69 +52,53 @@ public class ListenActivity extends AppCompatActivity {
         imageView = findViewById(R.id.imageView);
         titleText = findViewById(R.id.titleText);
 
+        trackStore = TrackStore.getInstance(this);
         mediaPlayer = new MediaPlayer();
+        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         timer = new Timer();
 
         Intent intent = getIntent();
-        int trackIndex = intent.getIntExtra("trackIndex", -1);
+        trackIndex = intent.getIntExtra("trackIndex", -1);
         if(trackIndex == -1) {
             Toast.makeText(this, "Sorry! Can't find track.", Toast.LENGTH_LONG).show();
-            return;
+            finish();
         }
 
-        Track track = TrackStore.getInstance().getOne(trackIndex);
+        loadTrack();
+        updateNavigationButtons();
 
-        Picasso.get().load(track.getImage()).into(imageView);
-        titleText.setText(track.title);
-
-        try {
-            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
-            mediaPlayer.setDataSource(track.link);
-            mediaPlayer.prepare();
-            lengthText.setText(String.valueOf(mediaPlayer.getDuration()));
-            seekBar.setMax(mediaPlayer.getDuration());
-            timer.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                }
-            }, 0, 1000);
-            mediaPlayer.start();
-        } catch (IOException e) {
-            Toast.makeText(this, "Sorry! We can't load track!", Toast.LENGTH_LONG).show();
-        }
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(mediaPlayer == null || !mediaPlayer.isPlaying()) return;
+                seekBar.setProgress(mediaPlayer.getCurrentPosition());
+            }
+        }, 0, 1000);
 
         pauseBtn.setOnClickListener(v -> {
             if(mediaPlayer.isPlaying()) {
                 mediaPlayer.pause();
                 pauseBtn.setText("Continue");
-            } else {
-                mediaPlayer.start();
-                pauseBtn.setText("Pause");
+                return;
             }
+            mediaPlayer.start();
+            pauseBtn.setText("Pause");
         });
 
-        if(trackIndex < 1) {
-            previousBtn.setEnabled(false);
-        }
-        if(trackIndex >= TrackStore.getInstance().size() - 1) {
-            nextBtn.setEnabled(false);
-        }
-
-
-
         previousBtn.setOnClickListener(v -> {
-            mediaPlayer.release();
-            Intent previousIntent = new Intent(this, ListenActivity.class);
-            previousIntent.putExtra("trackIndex", trackIndex - 1);
-            startActivity(previousIntent);
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            trackIndex--;
+            loadTrack();
+            updateNavigationButtons();
         });
 
         nextBtn.setOnClickListener(v -> {
-            mediaPlayer.release();
-            Intent nextIntent = new Intent(this, ListenActivity.class);
-            nextIntent.putExtra("trackIndex", trackIndex + 1);
-            startActivity(nextIntent);
+            mediaPlayer.stop();
+            mediaPlayer.reset();
+            trackIndex++;
+            loadTrack();
+            updateNavigationButtons();
         });
 
 
@@ -131,7 +118,44 @@ public class ListenActivity extends AppCompatActivity {
         });
     }
 
+    private void updateLength() {
+        long totalSeconds = mediaPlayer.getDuration() / 1000;
+        long minutes = totalSeconds / 60;
+        long seconds = totalSeconds % 60;
+        lengthText.setText(minutes + ":" + seconds);
+    }
 
+    private void updateNavigationButtons() {
+        previousBtn.setEnabled(trackIndex > 0);
+        nextBtn.setEnabled(trackIndex < trackStore.size() - 1);
+    }
 
+    private void loadTrack() {
+        Track track = trackStore.getOne(trackIndex);
 
+        String image = track.getImage();
+
+        Picasso.get().load(image).into(imageView);
+        titleText.setText(track.title);
+
+        try {
+            mediaPlayer.setDataSource(track.link);
+            mediaPlayer.setOnPreparedListener(player -> {
+                updateLength();
+                seekBar.setMax(player.getDuration());
+                seekBar.setProgress(0);
+                player.start();
+            });
+            mediaPlayer.prepareAsync();
+        } catch (IOException e) {
+            Toast.makeText(this, "Sorry! We can't load track!", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    protected void onStop () {
+        super.onStop();
+        timer.cancel();
+        mediaPlayer.release();
+    }
 }
