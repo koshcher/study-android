@@ -34,20 +34,22 @@ public class MainActivity extends AppCompatActivity {
 
         TrackStore trackStore = TrackStore.getInstance(this);
 
+
         /*
         trackStore.add(new Track(
                 "40 Skrip Andy",
                 "https://github.com/koshcher/music/raw/main/40skripandry.mp3",
                 "https://www.cheatsheet.com/wp-content/uploads/2023/01/50-Cent-music-2023.jpg"
         ));
+        */
 
+        /*
         trackStore.add(new Track(
                 "Underground",
                 "https://github.com/koshcher/music/raw/main/underground.mp3",
                 ""
         ));
-        */
-
+         */
         addTrackActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -61,9 +63,11 @@ public class MainActivity extends AppCompatActivity {
                 }
         );
 
-        adapter = new TrackAdapter(this, trackStore.all());
-        trackList.setLayoutManager(new LinearLayoutManager(this));
-        trackList.setAdapter(adapter);
+        trackStore.load(() -> {
+            adapter = new TrackAdapter(this, trackStore.all());
+            trackList.setLayoutManager(new LinearLayoutManager(this));
+            trackList.setAdapter(adapter);
+        });
 
         addTrackBtn.setOnClickListener(v -> {
             Intent intent = new Intent(this, AddTrackActivity.class);

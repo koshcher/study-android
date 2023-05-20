@@ -2,15 +2,14 @@ package rk.listenme.models;
 
 import android.webkit.URLUtil;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.io.Serializable;
 
+@Entity
 public class Track implements Serializable {
-    public static final String TABLE = "tracks";
-    public static final String ID = "id";
-    public static final String TITLE = "title";
-    public static final String LINK = "link";
-    public static final String IMAGE = "image";
-
+    @PrimaryKey(autoGenerate = true)
     public int id;
     public String title;
     public String link;

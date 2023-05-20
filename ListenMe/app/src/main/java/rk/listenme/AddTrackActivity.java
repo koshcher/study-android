@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import rk.listenme.data.Database;
 import rk.listenme.models.Track;
 
 public class AddTrackActivity extends AppCompatActivity {

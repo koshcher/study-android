@@ -2,19 +2,24 @@ package rk.listenme.data;
 
 import android.content.Context;
 
+import androidx.room.Room;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import rk.listenme.models.Track;
 
 public class TrackStore {
     private static volatile TrackStore INSTANCE = null;
 
-    private final List<Track> tracks;
+    private List<Track> tracks = new ArrayList<>();
+
     private final Database db;
 
     private TrackStore(Database db) {
         this.db = db;
-        tracks = db.getAll();
     }
 
     // multithreaded
@@ -22,18 +27,28 @@ public class TrackStore {
         if(INSTANCE != null) return INSTANCE;
 
         synchronized (TrackStore.class) {
-            if (INSTANCE == null) INSTANCE = new TrackStore(new Database(context));
+            if (INSTANCE == null) {
+                Database db = Room.databaseBuilder(context, Database.class, "listenme").build();
+                INSTANCE = new TrackStore(db);
+            }
         }
         return INSTANCE;
     }
 
     public void add(Track track) {
-        db.addTrack(track);
+        new Thread(() -> db.track().insert(track)).start();
         tracks.add(track);
     }
 
     public List<Track> all() {
         return tracks;
+    }
+
+    public void load(Runnable onLoad) {
+        new Thread(() -> {
+                tracks = db.track().getAll();
+                onLoad.run();
+        }).start();
     }
 
     public int size() { return tracks.size(); }
