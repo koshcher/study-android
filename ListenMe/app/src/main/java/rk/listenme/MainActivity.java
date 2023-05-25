@@ -34,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
         TrackStore trackStore = TrackStore.getInstance(this);
 
-
         /*
         trackStore.add(new Track(
                 "40 Skrip Andy",
@@ -50,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 ""
         ));
          */
+
         addTrackActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 result -> {
