@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import dev.rk.profileme.data.UserStore;
 import dev.rk.profileme.fragments.UserListFragment;
 import dev.rk.profileme.fragments.UserProfileFragment;
 import dev.rk.profileme.models.User;
@@ -15,10 +16,15 @@ public class MainActivity extends AppCompatActivity implements UserListFragment.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if(savedInstanceState != null) return;
+
+
+
+
         getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.userContainer, new UserListFragment())
-                .commit();
+            .beginTransaction()
+            .add(R.id.userContainer, new UserListFragment())
+            .commit();
     }
 
     @Override
