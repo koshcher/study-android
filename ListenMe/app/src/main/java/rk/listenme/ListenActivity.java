@@ -1,11 +1,15 @@
 package rk.listenme;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -18,8 +22,9 @@ import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import rk.listenme.data.TrackStore;
-import rk.listenme.models.Track;
+import rk.listenme.services.MusicService;
+import rk.listenme.ui.TrackStore;
+import rk.listenme.localdb.models.Track;
 
 public class ListenActivity extends AppCompatActivity {
 
@@ -32,11 +37,35 @@ public class ListenActivity extends AppCompatActivity {
     ImageView imageView;
     TextView titleText;
 
-    MediaPlayer mediaPlayer;
     Timer timer;
 
     int trackIndex;
     TrackStore trackStore;
+
+    @Nullable
+    private MusicService musicService;
+    private final ServiceConnection musicConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            MusicService.MusicServiceBinder binder = (MusicService.MusicServiceBinder) service;
+            musicService = binder.getService();
+            loadTrack();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            musicService = null;
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        Intent musicIntent = new Intent(this, MusicService.class);
+        bindService(musicIntent, musicConnection, BIND_AUTO_CREATE);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +82,6 @@ public class ListenActivity extends AppCompatActivity {
         titleText = findViewById(R.id.titleText);
 
         trackStore = TrackStore.getInstance(this);
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         timer = new Timer();
 
         Intent intent = getIntent();
@@ -70,33 +97,26 @@ public class ListenActivity extends AppCompatActivity {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(mediaPlayer == null || !mediaPlayer.isPlaying()) return;
-                seekBar.setProgress(mediaPlayer.getCurrentPosition());
+                if(musicService == null) return;
+                seekBar.setProgress(musicService.getPosition());
             }
         }, 0, 1000);
 
         pauseBtn.setOnClickListener(v -> {
-            if(mediaPlayer.isPlaying()) {
-                mediaPlayer.pause();
-                pauseBtn.setText("Continue");
-                return;
-            }
-            mediaPlayer.start();
-            pauseBtn.setText("Pause");
+            if(musicService == null) return;
+
+            boolean isPlaying = musicService.togglePlay();
+            pauseBtn.setText(isPlaying ? "Pause" : "Continue");
         });
 
         previousBtn.setOnClickListener(v -> {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            trackIndex--;
+            trackIndex -= 1;
             loadTrack();
-            updateNavigationButtons();
+                updateNavigationButtons();
         });
 
         nextBtn.setOnClickListener(v -> {
-            mediaPlayer.stop();
-            mediaPlayer.reset();
-            trackIndex++;
+            trackIndex += 1;
             loadTrack();
             updateNavigationButtons();
         });
@@ -112,17 +132,12 @@ public class ListenActivity extends AppCompatActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
+                if(musicService == null) return;
+
                 int progress = seekBar.getProgress();
-                mediaPlayer.seekTo(progress);
+                musicService.goTo(progress);
             }
         });
-    }
-
-    private void updateLength() {
-        long totalSeconds = mediaPlayer.getDuration() / 1000;
-        long minutes = totalSeconds / 60;
-        long seconds = totalSeconds % 60;
-        lengthText.setText(minutes + ":" + seconds);
     }
 
     private void updateNavigationButtons() {
@@ -131,22 +146,24 @@ public class ListenActivity extends AppCompatActivity {
     }
 
     private void loadTrack() {
+        if(musicService == null) return;
+
         Track track = trackStore.getOne(trackIndex);
 
         String image = track.getImage();
-
         Picasso.get().load(image).into(imageView);
         titleText.setText(track.title);
 
         try {
-            mediaPlayer.setDataSource(track.link);
-            mediaPlayer.setOnPreparedListener(player -> {
-                updateLength();
+            musicService.loadTrack(track.link, player -> {
+                long totalSeconds = player.getDuration() / 1000;
+                long minutes = totalSeconds / 60;
+                long seconds = totalSeconds % 60;
+                lengthText.setText(minutes + ":" + seconds);
+
                 seekBar.setMax(player.getDuration());
                 seekBar.setProgress(0);
-                player.start();
             });
-            mediaPlayer.prepareAsync();
         } catch (IOException e) {
             Toast.makeText(this, "Sorry! We can't load track!", Toast.LENGTH_LONG).show();
         }
@@ -156,6 +173,9 @@ public class ListenActivity extends AppCompatActivity {
     protected void onStop () {
         super.onStop();
         timer.cancel();
-        mediaPlayer.release();
+
+        if(musicService != null) {
+            unbindService(musicConnection);
+        }
     }
 }

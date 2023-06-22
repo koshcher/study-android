@@ -1,27 +1,32 @@
 package rk.listenme;
 
+
+import android.app.Activity;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.ServiceConnection;
+import android.os.Bundle;
+import android.os.IBinder;
+import android.widget.Button;
+
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.Button;
-
-import rk.listenme.adapters.TrackAdapter;
-import rk.listenme.data.TrackStore;
-import rk.listenme.models.Track;
+import rk.listenme.services.MusicService;
+import rk.listenme.ui.adapters.TrackAdapter;
+import rk.listenme.ui.TrackStore;
+import rk.listenme.localdb.models.Track;
 
 public class MainActivity extends AppCompatActivity {
 
     private RecyclerView trackList;
-    private Button addTrackBtn;
     private TrackAdapter adapter;
     private ActivityResultLauncher<Intent> addTrackActivityLauncher;
-    private ActivityResultLauncher<Intent> listenActivityLauncher;
+
 
 
     @Override
@@ -30,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         trackList = findViewById(R.id.trackList);
-        addTrackBtn = findViewById(R.id.addTrackBtn);
+        Button addTrackBtn = findViewById(R.id.addTrackBtn);
 
         TrackStore trackStore = TrackStore.getInstance(this);
 
@@ -40,15 +45,13 @@ public class MainActivity extends AppCompatActivity {
                 "https://github.com/koshcher/music/raw/main/40skripandry.mp3",
                 "https://www.cheatsheet.com/wp-content/uploads/2023/01/50-Cent-music-2023.jpg"
         ));
-        */
 
-        /*
         trackStore.add(new Track(
                 "Underground",
                 "https://github.com/koshcher/music/raw/main/underground.mp3",
                 ""
         ));
-         */
+        */
 
         addTrackActivityLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),

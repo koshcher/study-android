@@ -1,14 +1,25 @@
 package rk.weatherme;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.room.Room;
 
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.SplittableRandom;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -16,56 +27,49 @@ import retrofit2.Response;
 import rk.weatherme.api.RetrofitClient;
 import rk.weatherme.api.models.Weather;
 import rk.weatherme.api.services.WeatherApi;
+import rk.weatherme.room.LocalDb;
+import rk.weatherme.room.models.DbWeather;
+import rk.weatherme.services.CollectorService;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView townText;
+    TextView countText;
     TextView temperatureText;
     Button getCurrentBtn;
-    EditText townInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        townText = findViewById(R.id.townText);
+        Intent collectorIntent = new Intent(this, CollectorService.class);
+        PendingIntent collectorPendingIntent = PendingIntent
+                .getService(this, 0, collectorIntent, PendingIntent.FLAG_MUTABLE);
+
+        Calendar calendar = Calendar.getInstance();
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(
+                AlarmManager.RTC_WAKEUP,
+                calendar.getTimeInMillis(),
+                60*1000,
+                collectorPendingIntent
+        );
+
+        countText = findViewById(R.id.countText);
         temperatureText = findViewById(R.id.temperatureText);
         getCurrentBtn = findViewById(R.id.getCurrentBtn);
-        townInput = findViewById(R.id.townInput);
 
-        WeatherApi weatherApi = RetrofitClient.getRetrofit().create(WeatherApi.class);
+        LocalDb db = Room.databaseBuilder(getApplicationContext(), LocalDb.class, "weather_db")
+                .build();
 
-
-        getCurrentBtn.setOnClickListener(v -> {
-            String town = townInput.getText().toString();
-            weatherApi.getCurrent().enqueue(new Callback<Weather>() {
-                @Override
-                public void onResponse(Call<Weather> call, Response<Weather> response) {
-                    if(!response.isSuccessful()) {
-
-                        /*
-                        if(response.code() == 400) {
-                            Weather weather = response.body();
-                            if(weather.getError() != null) {
-                                Toast.makeText(getApplicationContext(), weather.getError().getMessage(), Toast.LENGTH_LONG).show();
-                            }
-                        }
-
-                         */
-                        return;
-                    }
-                    Weather weather = response.body();
-
-                    townText.setText(weather.getLocation().getName());
-                    temperatureText.setText(weather.getCurrent().getTempC().toString());
-                }
-
-                @Override
-                public void onFailure(Call<Weather> call, Throwable t) {
-
-                }
+        getCurrentBtn.setOnClickListener(v -> new Thread(() -> {
+            List<DbWeather> weathers = db.weather().getAll();
+            String temp = weathers.stream().map(x -> x.tempC.toString()).collect(Collectors.joining(" "));
+            runOnUiThread(() -> {
+                countText.setText("Count: " + weathers.size());
+                temperatureText.setText(temp);
             });
-        });
+        }).start());
     }
 }

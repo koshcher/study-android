@@ -28,9 +28,7 @@ public class MainActivity extends AppCompatActivity {
         createNotificationChannel();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 20);
-        calendar.set(Calendar.MINUTE, 46);
-        calendar.set(Calendar.SECOND, 10);
+        calendar.add(Calendar.SECOND, 5);
 
         Intent notificationIntent = new Intent(this, NotificationReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
@@ -38,19 +36,19 @@ public class MainActivity extends AppCompatActivity {
         );
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        alarmManager.setRepeating(
-                AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY, pendingIntent
-        );
+        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+
     }
 
     private void createNotificationChannel() {
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID, "Main Channel", NotificationManager.IMPORTANCE_DEFAULT
+                    CHANNEL_ID, "MainChannel", NotificationManager.IMPORTANCE_DEFAULT
             );
             channel.setDescription("Receive notifications from main channel");
-            getSystemService(NotificationManager.class).createNotificationChannel(channel);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
         }
     }
 }

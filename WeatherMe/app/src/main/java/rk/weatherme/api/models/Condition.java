@@ -13,7 +13,7 @@ public class Condition {
     private String icon;
     @SerializedName("code")
     @Expose
-    private Integer code;
+    private Double code;
 
     public String getText() {
         return text;
@@ -31,11 +31,11 @@ public class Condition {
         this.icon = icon;
     }
 
-    public Integer getCode() {
+    public Double getCode() {
         return code;
     }
 
-    public void setCode(Integer code) {
+    public void setCode(Double code) {
         this.code = code;
     }
 

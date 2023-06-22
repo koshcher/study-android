@@ -7,7 +7,7 @@ public class Current {
 
     @SerializedName("last_updated_epoch")
     @Expose
-    private Integer lastUpdatedEpoch;
+    private Double lastUpdatedEpoch;
     @SerializedName("last_updated")
     @Expose
     private String lastUpdated;
@@ -16,10 +16,10 @@ public class Current {
     private Double tempC;
     @SerializedName("temp_f")
     @Expose
-    private Integer tempF;
+    private Double tempF;
     @SerializedName("is_day")
     @Expose
-    private Integer isDay;
+    private Double isDay;
     @SerializedName("condition")
     @Expose
     private Condition condition;
@@ -31,28 +31,28 @@ public class Current {
     private Double windKph;
     @SerializedName("wind_degree")
     @Expose
-    private Integer windDegree;
+    private Double windDegree;
     @SerializedName("wind_dir")
     @Expose
     private String windDir;
     @SerializedName("pressure_mb")
     @Expose
-    private Integer pressureMb;
+    private Double pressureMb;
     @SerializedName("pressure_in")
     @Expose
     private Double pressureIn;
     @SerializedName("precip_mm")
     @Expose
-    private Integer precipMm;
+    private Double precipMm;
     @SerializedName("precip_in")
     @Expose
-    private Integer precipIn;
+    private Double precipIn;
     @SerializedName("humidity")
     @Expose
-    private Integer humidity;
+    private Double humidity;
     @SerializedName("cloud")
     @Expose
-    private Integer cloud;
+    private Double cloud;
     @SerializedName("feelslike_c")
     @Expose
     private Double feelslikeC;
@@ -64,10 +64,10 @@ public class Current {
     private Double visKm;
     @SerializedName("vis_miles")
     @Expose
-    private Integer visMiles;
+    private Double visMiles;
     @SerializedName("uv")
     @Expose
-    private Integer uv;
+    private Double uv;
     @SerializedName("gust_mph")
     @Expose
     private Double gustMph;
@@ -75,11 +75,11 @@ public class Current {
     @Expose
     private Double gustKph;
 
-    public Integer getLastUpdatedEpoch() {
+    public Double getLastUpdatedEpoch() {
         return lastUpdatedEpoch;
     }
 
-    public void setLastUpdatedEpoch(Integer lastUpdatedEpoch) {
+    public void setLastUpdatedEpoch(Double lastUpdatedEpoch) {
         this.lastUpdatedEpoch = lastUpdatedEpoch;
     }
 
@@ -99,19 +99,19 @@ public class Current {
         this.tempC = tempC;
     }
 
-    public Integer getTempF() {
+    public Double getTempF() {
         return tempF;
     }
 
-    public void setTempF(Integer tempF) {
+    public void setTempF(Double tempF) {
         this.tempF = tempF;
     }
 
-    public Integer getIsDay() {
+    public Double getIsDay() {
         return isDay;
     }
 
-    public void setIsDay(Integer isDay) {
+    public void setIsDay(Double isDay) {
         this.isDay = isDay;
     }
 
@@ -139,11 +139,11 @@ public class Current {
         this.windKph = windKph;
     }
 
-    public Integer getWindDegree() {
+    public Double getWindDegree() {
         return windDegree;
     }
 
-    public void setWindDegree(Integer windDegree) {
+    public void setWindDegree(Double windDegree) {
         this.windDegree = windDegree;
     }
 
@@ -155,11 +155,11 @@ public class Current {
         this.windDir = windDir;
     }
 
-    public Integer getPressureMb() {
+    public Double getPressureMb() {
         return pressureMb;
     }
 
-    public void setPressureMb(Integer pressureMb) {
+    public void setPressureMb(Double pressureMb) {
         this.pressureMb = pressureMb;
     }
 
@@ -171,35 +171,35 @@ public class Current {
         this.pressureIn = pressureIn;
     }
 
-    public Integer getPrecipMm() {
+    public Double getPrecipMm() {
         return precipMm;
     }
 
-    public void setPrecipMm(Integer precipMm) {
+    public void setPrecipMm(Double precipMm) {
         this.precipMm = precipMm;
     }
 
-    public Integer getPrecipIn() {
+    public Double getPrecipIn() {
         return precipIn;
     }
 
-    public void setPrecipIn(Integer precipIn) {
+    public void setPrecipIn(Double precipIn) {
         this.precipIn = precipIn;
     }
 
-    public Integer getHumidity() {
+    public Double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(Integer humidity) {
+    public void setHumidity(Double humidity) {
         this.humidity = humidity;
     }
 
-    public Integer getCloud() {
+    public Double getCloud() {
         return cloud;
     }
 
-    public void setCloud(Integer cloud) {
+    public void setCloud(Double cloud) {
         this.cloud = cloud;
     }
 
@@ -227,19 +227,19 @@ public class Current {
         this.visKm = visKm;
     }
 
-    public Integer getVisMiles() {
+    public Double getVisMiles() {
         return visMiles;
     }
 
-    public void setVisMiles(Integer visMiles) {
+    public void setVisMiles(Double visMiles) {
         this.visMiles = visMiles;
     }
 
-    public Integer getUv() {
+    public Double getUv() {
         return uv;
     }
 
-    public void setUv(Integer uv) {
+    public void setUv(Double uv) {
         this.uv = uv;
     }
 

@@ -25,7 +25,7 @@ public class Location {
     private String tzId;
     @SerializedName("localtime_epoch")
     @Expose
-    private Integer localtimeEpoch;
+    private Double localtimeEpoch;
     @SerializedName("localtime")
     @Expose
     private String localtime;
@@ -78,11 +78,11 @@ public class Location {
         this.tzId = tzId;
     }
 
-    public Integer getLocaltimeEpoch() {
+    public Double getLocaltimeEpoch() {
         return localtimeEpoch;
     }
 
-    public void setLocaltimeEpoch(Integer localtimeEpoch) {
+    public void setLocaltimeEpoch(Double localtimeEpoch) {
         this.localtimeEpoch = localtimeEpoch;
     }
 
