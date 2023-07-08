@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
         calendar.add(Calendar.SECOND, 5);
 
         Intent notificationIntent = new Intent(this, NotificationReceiver.class);
+
         PendingIntent pendingIntent = PendingIntent.getBroadcast(
                 this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT
         );

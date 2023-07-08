@@ -3,30 +3,17 @@ package rk.weatherme;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.room.Room;
 
-import android.annotation.SuppressLint;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.SplittableRandom;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import rk.weatherme.api.RetrofitClient;
-import rk.weatherme.api.models.Weather;
-import rk.weatherme.api.services.WeatherApi;
 import rk.weatherme.room.LocalDb;
 import rk.weatherme.room.models.DbWeather;
 import rk.weatherme.services.CollectorService;

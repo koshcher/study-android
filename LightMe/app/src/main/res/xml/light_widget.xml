@@ -1,0 +1,9 @@
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:minWidth="64dp"
+    android:minHeight="64dp"
+    android:targetCellWidth="2"
+    android:targetCellHeight="2"
+    android:initialLayout="@layout/widget_layout"
+    android:widgetCategory="home_screen"
+    >
+</appwidget-provider>

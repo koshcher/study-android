@@ -1,6 +1,7 @@
 package rk.lightme;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.camera2.CameraAccessException;
 import android.hardware.camera2.CameraManager;
@@ -9,7 +10,7 @@ import android.os.IBinder;
 
 import androidx.annotation.Nullable;
 
-public class    LighterService extends Service {
+public class LighterService extends Service {
 
     private CameraManager cameraManager;
     private String cameraId;
@@ -21,9 +22,19 @@ public class    LighterService extends Service {
         }
     }
 
+    public LighterService() {
+        initCameraManager();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
+        if(cameraManager == null) {
+            initCameraManager();
+        }
+    }
+
+    private void initCameraManager() {
         cameraManager = (CameraManager) getSystemService(CAMERA_SERVICE);
         try {
             cameraId = cameraManager.getCameraIdList()[0];

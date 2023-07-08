@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.AddNotificationFragment">
+
+    <TextView
+        android:id="@+id/addNotificationLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Add Notification"
+        android:textSize="32sp"
+        android:layout_marginTop="16dp"
+        />
+
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/addNotificationTitleLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/addNotificationLabel"
+        android:text="Title"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        />
+
+    <EditText
+        android:id="@+id/addNotificationTitleInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/addNotificationTitleLabel"
+        />
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/addNotificationDateLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/addNotificationTitleInput"
+        android:text="Date"
+        android:textSize="18sp"
+        android:layout_marginTop="8dp"
+        />
+
+    <Button
+        android:id="@+id/addNotificationDateBtn"
+        android:layout_width="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Choose date"
+        app:layout_constraintTop_toBottomOf="@id/addNotificationDateLabel"
+        />
+
+    <Button
+        android:id="@+id/addNotificationTimeBtn"
+        android:layout_width="0dp"
+        android:layout_marginTop="8dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Choose time"
+        app:layout_constraintTop_toBottomOf="@id/addNotificationDateBtn"
+        />
+
+    <Button
+        android:id="@+id/addNotificationBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Add Notification"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

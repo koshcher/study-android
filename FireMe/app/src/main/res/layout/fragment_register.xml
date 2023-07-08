@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.fragments.RegisterFragment">
+
+    <TextView
+        android:id="@+id/registerLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:text="Register"
+        android:textSize="32sp"
+        android:layout_marginTop="16dp"
+        />
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/registerEmailLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/registerLabel"
+        android:text="Email"
+        android:layout_marginTop="8dp"
+        />
+
+    <EditText
+        android:id="@+id/registerEmailInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerEmailLabel"
+        />
+
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/registerPhoneLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/registerEmailInput"
+        android:text="Phone"
+        android:layout_marginTop="8dp"
+        />
+
+    <EditText
+        android:id="@+id/registerPhoneInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerPhoneLabel"
+        />
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/registerNameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/registerPhoneInput"
+        android:text="Full Name"
+        android:layout_marginTop="8dp"
+        />
+
+    <EditText
+        android:id="@+id/registerNameInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerNameLabel"
+        />
+
+    <TextView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/registerPasswordLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/registerNameInput"
+        android:text="Password"
+        android:layout_marginTop="8dp"
+        />
+
+    <EditText
+        android:id="@+id/registerPasswordInput"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/registerPasswordLabel"
+        android:inputType="textPassword"
+        />
+
+    <Button
+        android:id="@+id/gotoLoginBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Already have an account? Login"
+        app:layout_constraintBottom_toTopOf="@id/registerBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+
+    <Button
+        android:id="@+id/registerBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Register"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

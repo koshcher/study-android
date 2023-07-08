@@ -27,7 +27,16 @@
             </intent-filter>
         </activity>
         <service android:name="rk.lightme.LighterService" />
+        <receiver android:name=".LightWidget" android:exported="true">
+            <intent-filter>
+                <action android:name="android.appwidget.APPWIDGET_UPDATE"/>
+                <action android:name="lightServiceActionToggleLight"/>
+            </intent-filter>
 
+            <meta-data android:name="android.widget.provider" android:resource="@layout/widget_layout">
+
+            </meta-data>
+        </receiver>
     </application>
 
 </manifest>

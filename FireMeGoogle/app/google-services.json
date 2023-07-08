@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1069914852751",
+    "firebase_url": "https://fireme-rk-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "fireme-rk",
+    "storage_bucket": "fireme-rk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1069914852751:android:032570bdeec27d2e880ffa",
+        "android_client_info": {
+          "package_name": "rk.fireme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1069914852751-dsou58ar8shm7j6pp4i5m6v3b58fvilg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBp_wNSL8N7EEtJGTeZZD4Qx2GpfQVz_Ic"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1069914852751-8p0bbuvc5leul83gemb9rr8qs4r4h6vj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

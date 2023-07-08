@@ -24,6 +24,12 @@ public class MusicService extends Service {
         player.setAudioStreamType(AudioManager.STREAM_MUSIC);
     }
 
+    public boolean isLoaded()
+    {
+        int duration = player.getDuration();
+        return duration > 0;
+    }
+
     public int getDuration() {
         return player.getDuration();
     }
@@ -45,10 +51,7 @@ public class MusicService extends Service {
     }
 
     public void loadTrack(String url, Consumer<MediaPlayer> afterPrepared) throws IOException {
-        if(player.isPlaying()) {
-            player.stop();
-            player.reset();
-        }
+        player.reset();
 
         player.setDataSource(url);
         player.setOnPreparedListener(pl -> {
@@ -67,6 +70,7 @@ public class MusicService extends Service {
     public class MusicServiceBinder extends Binder {
         public MusicService getService() { return MusicService.this; }
     }
+
 
     @Nullable
     @Override
